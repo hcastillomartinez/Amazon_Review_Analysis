@@ -26,5 +26,8 @@ for x in range(sample):
                 header = 0
             else:
                 if (random.random()) > p:
-                    writer.writerow(row)
-
+                    if row[2] in seen:
+                        print("dup not added")
+                    else:
+                        writer.writerow(row)
+                        seen.append(row[2])

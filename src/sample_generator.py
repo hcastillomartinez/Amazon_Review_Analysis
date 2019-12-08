@@ -1,33 +1,50 @@
 import random
 import os
 import csv
+import numpy
 
-p = .35
-directory = r'C:\Users\damia\PycharmProjects\Amazon_Review_Analysis\data'
-# directory = r'C:\Users\damia\Desktop\new_samples'
-out = "C:\\Users\\damia\\PycharmProjects\\Amazon_Review_Analysis\\data\\"
-# out = "C:\\Users\\damia\\Desktop\\new_samples\\"
+# directory = r'C:\Users\damia\PycharmProjects\Amazon_Review_Analysis\data'
+directory = r'C:\Users\damia\Desktop\pp'
+# out = "C:\\Users\\damia\\PycharmProjects\\Amazon_Review_Analysis\\data\\"
+out = "C:\\Users\\damia\\Desktop\\pp\\"
 out2 = "C:\\Users\\damia\\PycharmProjects\\Amazon_Review_Analysis\\mod_data\\"
 header = 1
 sample = 1
-seen = []
+tot_row = 18717800
+first = 1
+# row[8] is helpful votes
+# 18717800 number of rows
+
+def row_count(filename):
+    row_c = 0
+    tsvfile1 = open(out + filename, 'r', encoding='Latin-1')
+    reader1 = csv.reader(tsvfile1, delimiter='\t', quoting=csv.QUOTE_NONE)
+    for row in reader1:
+        row_c += 1
+    return row_c-1
+
+
 for x in range(sample):
-    tsvfileout = open(out2 + 'no_dup_sample_' + str(x) + '.tsv', 'w', encoding='Latin-1')
+    tsvfileout = open(out2 + 'sample_' + str(x) + '.tsv', 'w', encoding='Latin-1')
     writer = csv.writer(tsvfileout, delimiter='\t', lineterminator='\n')
     for filename in os.listdir(directory):
-        header = 1
         print(filename)
-        print("Current sample %d" % x)
+        curr_row_count = row_count(filename)
+        header = 1
         tsvfile = open(out + filename, 'r', encoding='Latin-1')
         reader = csv.reader(tsvfile, delimiter='\t', quoting=csv.QUOTE_NONE)
+
         for row in reader:
             if header == 1:
-                writer.writerow(row)
+                if first == 1:
+                    writer.writerow(row)
                 header = 0
+                first = 0
             else:
-                if (random.random()) > p:
-                    if row[2] in seen:
-                        print("dup not added")
-                    else:
-                        writer.writerow(row)
-                        seen.append(row[2])
+                # p = numpy.tanh(int(row[8])*(curr_row_count/tot_row)+int(row[8]))
+                p = numpy.tanh(.4+int(row[8])*curr_row_count/(curr_row_count*2))
+                print(p)
+                if (random.random()) <= p:
+                    writer.writerow(row)
+
+# print("avg number of duplicates blocked = %d" % hit/len(seen))

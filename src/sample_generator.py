@@ -25,7 +25,7 @@ def row_count(filename):
 
 
 for x in range(sample):
-    tsvfileout = open(out2 + 'sample_' + str(x) + '.tsv', 'w', encoding='Latin-1')
+    tsvfileout = open(out2 + 'sample_' + str(1) + '.tsv', 'w', encoding='Latin-1')
     writer = csv.writer(tsvfileout, delimiter='\t', lineterminator='\n')
     for filename in os.listdir(directory):
         print(filename)
@@ -42,13 +42,11 @@ for x in range(sample):
                 first = 0
             else:
                 # p = numpy.tanh(int(row[8])*(curr_row_count/tot_row)+int(row[8]))
-                if row[8] == 0:
-                    p = numpy.tanh(numpy.log(1)+.5)-curr_row_count/tot_row
+                if int(row[8]) == 0:
+                    p = numpy.tanh(numpy.log(1)+.15)-curr_row_count/tot_row
                 else:
                     p = numpy.tanh(numpy.log(int(row[8])))-curr_row_count/tot_row
                 if (random.random()) <= p:
-                    print(p)
-                    print(row[8])
                     writer.writerow(row)
 
 # print("avg number of duplicates blocked = %d" % hit/len(seen))

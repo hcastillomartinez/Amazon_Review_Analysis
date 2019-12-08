@@ -3,10 +3,10 @@ import os
 import csv
 import numpy
 
-# directory = r'C:\Users\damia\PycharmProjects\Amazon_Review_Analysis\data'
-directory = r'C:\Users\damia\Desktop\pp'
-# out = "C:\\Users\\damia\\PycharmProjects\\Amazon_Review_Analysis\\data\\"
-out = "C:\\Users\\damia\\Desktop\\pp\\"
+directory = r'C:\Users\damia\PycharmProjects\Amazon_Review_Analysis\data'
+# directory = r'C:\Users\damia\Desktop\pp'
+out = "C:\\Users\\damia\\PycharmProjects\\Amazon_Review_Analysis\\data\\"
+# out = "C:\\Users\\damia\\Desktop\\pp\\"
 out2 = "C:\\Users\\damia\\PycharmProjects\\Amazon_Review_Analysis\\mod_data\\"
 header = 1
 sample = 1
@@ -19,7 +19,7 @@ def row_count(filename):
     row_c = 0
     tsvfile1 = open(out + filename, 'r', encoding='Latin-1')
     reader1 = csv.reader(tsvfile1, delimiter='\t', quoting=csv.QUOTE_NONE)
-    for row in reader1:
+    for row1 in reader1:
         row_c += 1
     return row_c-1
 
@@ -42,9 +42,13 @@ for x in range(sample):
                 first = 0
             else:
                 # p = numpy.tanh(int(row[8])*(curr_row_count/tot_row)+int(row[8]))
-                p = numpy.tanh(.4+int(row[8])*curr_row_count/(curr_row_count*2))
-                print(p)
+                if row[8] == 0:
+                    p = numpy.tanh(numpy.log(1)+.5)-curr_row_count/tot_row
+                else:
+                    p = numpy.tanh(numpy.log(int(row[8])))-curr_row_count/tot_row
                 if (random.random()) <= p:
+                    print(p)
+                    print(row[8])
                     writer.writerow(row)
 
 # print("avg number of duplicates blocked = %d" % hit/len(seen))

@@ -31,6 +31,11 @@ for n in range(3,max_clusters+1):
   clustered = model.transform(new_df)
   import numpy as np  
   pdf = clustered.toPandas()
+  l = np.array_split(pdf,10)
+  d = 0
+  for df in l:
+    df.to_csv('/FileStore/tables/clustered/clustered_samp'+d+'.tsv',sep='\t', quoting=csv.QUOTE_NONE)
+    d +=1
   # Update path where it writes to
   df.to_csv('/FileStore/tables/clustered/clustered_samp.tsv',sep='\t', quoting=csv.QUOTE_NONE)
   

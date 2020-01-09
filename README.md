@@ -1,4 +1,4 @@
-# Amazon_Review_Analysis
+# Amazon Review Analysis
 ## Collaborators: Hector Castillo Martinez, Justin Stoner, Kelsie Box, Daniel Miller
 ## Abstract
 The rise of online retail over the last twenty years has caused
